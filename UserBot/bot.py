@@ -1143,22 +1143,22 @@ def start_bot(message: Message):
     if USERS_DB.find_user(telegram_id=message.chat.id):
         edit_name= USERS_DB.edit_user(telegram_id=message.chat.id,full_name=message.from_user.full_name)
         edit_username = USERS_DB.edit_user(telegram_id=message.chat.id,username=message.from_user.username)
-        bot.send_message(message.chat.id, MESSAGES['WELCOME'], reply_markup=agent_request_for_representation())
+        bot.send_message(message.chat.id, MESSAGES['WELCOME'], reply_markup=user_request_for_representation())
     else:
         created_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         status = USERS_DB.add_user(telegram_id=message.chat.id,username=message.from_user.username, full_name=message.from_user.full_name, created_at=created_at)
         if not status:
             bot.send_message(message.chat.id, MESSAGES['UNKNOWN_ERROR'],
-                             reply_markup=agent_request_for_representation())
+                             reply_markup=user_request_for_representation())
             return
         wallet_status = USERS_DB.find_wallet(telegram_id=message.chat.id)
         if not wallet_status:
             status = USERS_DB.add_wallet(telegram_id=message.chat.id)
             if not status:
                 bot.send_message(message.chat.id, f"{MESSAGES['UNKNOWN_ERROR']}:Wallet",
-                                 reply_markup=agent_request_for_representation())
+                                 reply_markup=user_request_for_representation())
                 return
-            bot.send_message(message.chat.id, MESSAGES['WELCOME'], reply_markup=agent_request_for_representation())
+            bot.send_message(message.chat.id, MESSAGES['WELCOME'], reply_markup=user_request_for_representation())
 
     join_status = is_user_in_channel(message.chat.id)
     if not join_status:
@@ -1174,9 +1174,9 @@ def not_in_users_table(message: Message):
     if not join_status:
         return
     if USERS_DB.agent_is_approved(telegram_id=message.chat.id):
-        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=agent_request_for_representation())
+        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=user_request_for_representation())
     else:
-        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=agent_request_for_representation())
+        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=user_request_for_representation())
 
 
 # User Subscription Status Message Handler

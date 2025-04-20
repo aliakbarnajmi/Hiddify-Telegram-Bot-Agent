@@ -37,12 +37,20 @@ class UserDBManager:
             cur.execute("CREATE TABLE IF NOT EXISTS users ("
                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                         "telegram_id INTEGER NOT NULL UNIQUE,"
+                        "name TEXT NOT NULL,"
                         "full_name TEXT NULL,"
                         "username TEXT NULL,"
-                        # "referral_code INTEGER NOT NULL,"
-                        # "referred_by INTEGER NULL,"
-                        # "discount_percent INTEGER NOT NULL DEFAULT 0,"
-                        # "count_warn INTEGER NOT NULL DEFAULT 0,"
+                        "uuid TEXT NOT NULL,"
+                        "approved BOOLEAN NOT NULL DEFAULT 0,"
+                        "ending_massage_volume TEXT DEFAULT 'message',"
+                        "ending_massage_time TEXT DEFAULT 'message',"
+                        "warning_massage_volume TEXT DEFAULT 'message',"
+                        "warning_massage_time TEXT DEFAULT 'message',"
+                        "subscriptions_limit INTEGER NOT NULL DEFAULT 100,"
+                        "max_debt_credit INTEGER NOT NULL DEFAULT 0,"
+                        "balance INTEGER NOT NULL DEFAULT 0,"
+                        "active_subscriptions INTEGER NOT NULL DEFAULT 0,"
+                        "usage_subscriptions INTEGER NOT NULL DEFAULT 0,"
                         "test_subscription BOOLEAN NOT NULL DEFAULT 0,"
                         "banned BOOLEAN NOT NULL DEFAULT 0,"
                         "created_at TEXT NOT NULL)")
@@ -61,7 +69,7 @@ class UserDBManager:
             self.conn.commit()
             logging.info("Plans table created successfully!")
 
-            cur.execute("CREATE TABLE IF NOT EXISTS agent_plans ("
+            cur.execute("CREATE TABLE IF NOT EXISTS user_plans ("
                         "id INTEGER PRIMARY KEY,"
                         "telegram_id INTEGER NOT NULL UNIQUE,"
                         "plan_id INTEGER NOT NULL,"
@@ -150,27 +158,7 @@ class UserDBManager:
                         "default_server BOOLEAN NOT NULL DEFAULT 0)")
             self.conn.commit()
             logging.info("Servers table created successfully!")
-            
-            cur.execute("CREATE TABLE IF NOT EXISTS agents ("
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                        "telegram_id INTEGER NOT NULL UNIQUE,"
-                        "name TEXT NOT NULL,"
-                        "full_name TEXT NULL,"
-                        "username TEXT NULL,"
-                        "uuid TEXT NOT NULL,"
-                        "approved BOOLEAN NOT NULL DEFAULT 0,"
-                        "ending_massage_volume TEXT DEFAULT 'message',"
-                        "ending_massage_time TEXT DEFAULT 'message',"
-                        "warning_massage_volume TEXT DEFAULT 'message',"
-                        "warning_massage_time TEXT DEFAULT 'message',"
-                        "user_limit INTEGER NOT NULL DEFAULT 100,"
-                        "max_debt_credit INTEGER NOT NULL DEFAULT 0,"
-                        "balance INTEGER NOT NULL DEFAULT 0,"
-                        "active_users INTEGER NOT NULL DEFAULT 0,"
-                        "usage_users INTEGER NOT NULL DEFAULT 0,"
-                        "default_server BOOLEAN NOT NULL DEFAULT 0)")
-            self.conn.commit()
-            logging.info("Servers table created successfully!")
+
             
         except Error as e:
             logging.error(f"Error while creating user table \n Error:{e}")
@@ -250,84 +238,11 @@ class UserDBManager:
             return False
 
 # ---------------- AGENT ---------------
-    def select_agents(self):
-        cur = self.conn.cursor()
-        try:
-            cur.execute("SELECT * FROM agents")
-            rows = cur.fetchall()
-            rows = [dict(zip([key[0] for key in cur.description], row)) for row in rows]
-            return rows
-        except Error as e:
-            logging.error(f"Error while selecting all agents \n Error:{e}")
-            return None
-
-    def find_agent(self, **kwargs):
-        if len(kwargs) != 1:
-            logging.warning("You can only use one key to find agent!")
-            return None
-        rows = []
-        cur = self.conn.cursor()
-        try:
-            for key, value in kwargs.items():
-                cur.execute(f"SELECT * FROM agents WHERE {key}=?", (value,))
-                rows = cur.fetchall()
-            if len(rows) == 0:
-                logging.info(f"agent {kwargs} not found!")
-                return None
-            rows = [dict(zip([key[0] for key in cur.description], row)) for row in rows]
-            return rows
-        except Error as e:
-            logging.error(f"Error while finding agent {kwargs} \n Error:{e}")
-            return None
-
-    def delete_agent(self, **kwargs):
-        if len(kwargs) != 1:
-            logging.warning("You can only use one key to delete agent!")
-            return False
-        cur = self.conn.cursor()
-        try:
-            for key, value in kwargs.items():
-                cur.execute(f"DELETE FROM agents WHERE {key}=?", (value,))
-                self.conn.commit()
-            logging.info(f"agent {kwargs} deleted successfully!")
-            return True
-        except Error as e:
-            logging.error(f"Error while deleting agent {kwargs} \n Error:{e}")
-            return False
-
-    def edit_agent(self, telegram_id, **kwargs):
-        cur = self.conn.cursor()
-
-        for key, value in kwargs.items():
-            try:
-                cur.execute(f"UPDATE agents SET {key}=? WHERE telegram_id=?", (value, telegram_id))
-                self.conn.commit()
-                logging.info(f"agent [{telegram_id}] successfully update [{key}] to [{value}]")
-            except Error as e:
-                logging.error(f"Error while updating agent [{telegram_id}] [{key}] to [{value}] \n Error: {e}")
-                return False
-
-        return True
-
-    # must fill all columns
-    def add_agent(self, telegram_id, full_name,username, created_at):
-        cur = self.conn.cursor()
-        try:
-            cur.execute("INSERT INTO agents(telegram_id, full_name,username, created_at) VALUES(?,?,?,?)",
-                        (telegram_id, full_name,username, created_at))
-            self.conn.commit()
-            logging.info(f"Agent [{telegram_id}] added successfully!")
-            return True
-
-        except Error as e:
-            logging.error(f"Error while adding agent [{telegram_id}] \n Error: {e}")
-            return False
-
     def agent_is_approved(self, telegram_id):
         rows = []
         cur = self.conn.cursor()
         try:
-            cur.execute(f"SELECT * FROM agents WHERE telegram_id=?", (telegram_id,))
+            cur.execute(f"SELECT * FROM users WHERE telegram_id=?", (telegram_id,))
             rows = cur.fetchall()
             if len(rows) == 0:
                 logging.info(f"agent {telegram_id} not found!")
