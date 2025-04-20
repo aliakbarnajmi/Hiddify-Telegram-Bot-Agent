@@ -704,6 +704,7 @@ def users_bot_add_plan_price(message: Message):
     bot.send_message(message.chat.id, MESSAGES['USERS_BOT_ADD_PLAN_DESC'],
                      reply_markup=markups.while_edit_skip_user_markup())
     bot.register_next_step_handler(message, users_bot_add_plan_description)
+
 def users_bot_add_plan_description(message: Message):
     if is_it_cancel(message):
         return

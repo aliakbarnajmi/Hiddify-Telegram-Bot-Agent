@@ -158,6 +158,7 @@ class UserDBManager:
                         "full_name TEXT NULL,"
                         "username TEXT NULL,"
                         "uuid TEXT NOT NULL,"
+                        "approved BOOLEAN NOT NULL DEFAULT 0,"
                         "ending_massage_volume TEXT DEFAULT 'message',"
                         "ending_massage_time TEXT DEFAULT 'message',"
                         "warning_massage_volume TEXT DEFAULT 'message',"
@@ -322,6 +323,21 @@ class UserDBManager:
             logging.error(f"Error while adding agent [{telegram_id}] \n Error: {e}")
             return False
 
+    def agent_is_approved(self, telegram_id):
+        rows = []
+        cur = self.conn.cursor()
+        try:
+            cur.execute(f"SELECT * FROM agents WHERE telegram_id=?", (telegram_id,))
+            rows = cur.fetchall()
+            if len(rows) == 0:
+                logging.info(f"agent {telegram_id} not found!")
+                return None
+            rows = [dict(zip([key[0] for key in cur.description], row)) for row in rows]
+            print(rows)
+            return rows
+        except Error as e:
+            logging.error(f"Error while finding agent {telegram_id} \n Error:{e}")
+            return None
 
 # ---------------- PLAN --------------
     def add_plan(self, plan_id, size_gb, days, price, server_id, description=None, status=True):
