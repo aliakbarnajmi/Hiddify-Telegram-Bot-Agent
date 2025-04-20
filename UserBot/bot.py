@@ -1174,7 +1174,7 @@ def not_in_users_table(message: Message):
     if not join_status:
         return
     if USERS_DB.agent_is_approved(telegram_id=message.chat.id):
-        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=main_menu_keyboard_markup())
+        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=agent_request_for_representation())
     else:
         bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=agent_request_for_representation())
 
