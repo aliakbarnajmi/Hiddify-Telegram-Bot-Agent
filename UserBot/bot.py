@@ -1166,7 +1166,7 @@ def start_bot(message: Message):
 
 
 # If user is not in users table, request /start
-@bot.message_handler(func=lambda message: not USERS_DB.find_agent(telegram_id=message.chat.id))
+@bot.message_handler(func=lambda message: not USERS_DB.find_user(telegram_id=message.chat.id))
 def not_in_users_table(message: Message):
     if is_user_banned(message.chat.id):
         return
