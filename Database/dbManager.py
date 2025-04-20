@@ -37,7 +37,6 @@ class UserDBManager:
             cur.execute("CREATE TABLE IF NOT EXISTS users ("
                         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                         "telegram_id INTEGER NOT NULL UNIQUE,"
-                        "name TEXT DEFAULT 'name',"
                         "full_name TEXT NULL,"
                         "username TEXT NULL,"
                         "uuid TEXT DEFAULT 'uuid',"
