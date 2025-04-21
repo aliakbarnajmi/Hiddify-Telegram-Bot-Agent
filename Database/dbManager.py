@@ -226,7 +226,7 @@ class UserDBManager:
     def add_user(self, telegram_id, full_name,username, created_at):
         cur = self.conn.cursor()
         try:
-            cur.execute("INSERT INTO users(telegram_id, full_name,username, created_at) VALUES(?,?,?,?)",
+            cur.execute("INSERT INTO users(telegram_id, full_name, username, created_at) VALUES(?,?,?,?)",
                         (telegram_id, full_name,username, created_at))
             self.conn.commit()
             logging.info(f"User [{telegram_id}] added successfully!")
