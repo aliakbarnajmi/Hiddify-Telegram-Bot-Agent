@@ -1172,7 +1172,7 @@ def subscription_status(message: Message):
     join_status = is_user_in_channel(message.chat.id)
     if not join_status:
         return
-    bot.send_message(message.chat.id, MESSAGES['REQUEST_SEND_NAME'], reply_markup=cancel_markup())
+    bot.send_message(message.chat.id, MESSAGES['AGENT_START_MESSAGE'], reply_markup=cancel_markup())
 
 
 
