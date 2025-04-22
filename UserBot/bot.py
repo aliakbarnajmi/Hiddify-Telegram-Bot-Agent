@@ -1173,10 +1173,12 @@ def not_in_users_table(message: Message):
     join_status = is_user_in_channel(message.chat.id)
     if not join_status:
         return
-    if USERS_DB.agent_is_approved(telegram_id=message.chat.id):
-        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=user_request_for_representation())
-    else:
-        bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=user_request_for_representation())
+    bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=user_request_for_representation())
+    
+    # if USERS_DB.agent_is_approved(telegram_id=message.chat.id):
+    #     bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=user_request_for_representation())
+    # else:
+    #     bot.send_message(message.chat.id, MESSAGES['REQUEST_START'], reply_markup=user_request_for_representation())
 
 
 # User Subscription Status Message Handler
