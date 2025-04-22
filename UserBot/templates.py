@@ -117,6 +117,38 @@ Paid amount: <b>{payment['payment_amount']}</b> {MESSAGES['TOMAN']}
 """
 
 
+def agnet_confirmation_template(name, user, header="", footer=""):
+    username = f"@{user['username']}" if user['username'] else MESSAGES['NOT_SET']
+    name = user['full_name'] if user['full_name'] else user['telegram_id']
+
+
+    if LANG == 'FA':
+        return f"""
+{header}
+
+نام <code>{name}</code>
+{MESSAGES['INFO_USER_NAME']} <b>{name}</b>
+{MESSAGES['INFO_USER_USERNAME']} {username}
+{MESSAGES['INFO_USER_NUM_ID']} {user['telegram_id']}
+---------------------
+⬇️درخواست همکاری⬇️
+
+{footer}
+"""
+    elif LANG == 'EN':
+        return f"""
+{header}
+
+name: <b>{name}</b>
+{MESSAGES['INFO_USER_NAME']} <b>{name}</b>
+{MESSAGES['INFO_USER_USERNAME']} {username}
+{MESSAGES['INFO_USER_NUM_ID']} {user['telegram_id']}
+---------------------
+⬇️Request to affilation⬇️
+
+"""
+
+
 # Help Guide Template
 def connection_help_template(header=""):
     if LANG == 'FA':

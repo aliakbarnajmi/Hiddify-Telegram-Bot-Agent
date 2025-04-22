@@ -667,6 +667,14 @@ def next_step_agent_send_name(message: Message):
     USERS_DB.edit_user(telegram_id=message.chat.id, name= name)
     bot.send_message(message.chat.id, MESSAGES['WAIT_FOR_ADMIN_AGENT_REGISTRATION_CONFIRMATION'],
                     reply_markup=next_step_agent_send_name())
+    user_data = USERS_DB.find_user(telegram_id=message.chat.id)
+    if not user_data:
+        bot.send_message(message.chat.id, MESSAGES['UNKNOWN_ERROR'],
+                            reply_markup=main_menu_keyboard_markup())
+        return
+    user_data = user_data[0]
+    for ADMIN in ADMINS_ID:
+        admin_bot.send_message(ADMIN, agnet_confirmation_template(name, user_data))
     
 
 # *********************************** Callback Query Area ***********************************
