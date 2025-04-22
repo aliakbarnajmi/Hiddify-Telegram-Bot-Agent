@@ -1164,6 +1164,17 @@ def start_bot(message: Message):
     if not join_status:
         return
 
+# User Subscription Status Message Handler
+@bot.message_handler(func=lambda message: message.text == KEY_MARKUP['REQUEST_SIGNUP_AGENT'])
+def subscription_status(message: Message):
+    if is_user_banned(message.chat.id):
+        return
+    join_status = is_user_in_channel(message.chat.id)
+    if not join_status:
+        return
+    bot.send_message(message.chat.id, MESSAGES['REQUEST_SEND_NAME'], reply_markup=cancel_markup())
+
+
 
 # If user is not in users table, request /start
 @bot.message_handler(func=lambda message: not USERS_DB.find_user(telegram_id=message.chat.id))
