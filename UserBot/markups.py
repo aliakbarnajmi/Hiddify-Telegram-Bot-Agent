@@ -26,7 +26,7 @@ def user_request_for_representation():
     markup = ReplyKeyboardMarkup(row_width=3, resize_keyboard=True)
     markup.add(KeyboardButton(KEY_MARKUP['REQUEST_SIGNUP_AGENT']))
     markup.add(KeyboardButton(KEY_MARKUP['SEND_TICKET']))
-    
+    return markup
 
 
 def user_info_markup(uuid):
