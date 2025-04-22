@@ -660,10 +660,10 @@ def next_step_agent_send_name(message: Message):
     if is_it_cancel(message):
         return
     name = message.text
-    if len(name) < 4 or len(name) > 20:
-        bot.send_message(message.chat.id, MESSAGES['AGENT_START_MESSAGE'], reply_markup=cancel_markup())
-        bot.register_next_step_handler(message, next_step_agent_send_name)
-        return
+    # if len(name) < 4 or len(name) > 20:
+    #     bot.send_message(message.chat.id, MESSAGES['AGENT_START_MESSAGE'], reply_markup=cancel_markup())
+    #     bot.register_next_step_handler(message, next_step_agent_send_name)
+    #     return
     USERS_DB.edit_user(telegram_id=message.chat.id, name= name)
 
 # *********************************** Callback Query Area ***********************************
