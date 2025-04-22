@@ -327,7 +327,7 @@ def next_step_send_screenshot(message, charge_wallet):
             admin_bot.send_photo(ADMIN, open(path_recp, 'rb'),
                                  caption=payment_received_template(payment,user_data),
                                  reply_markup=confirm_payment_by_admin(charge_wallet['id']))
-        bot.send_message(message.chat.id, MESSAGES['WAIT_FOR_ADMIN_CONFIRMATION'],
+        bot.send_message(message.chat.id, MESSAGES['WAIT_FOR_ADMIN_TRANSACCTION_CONFIRMATION'],
                          reply_markup=main_menu_keyboard_markup())
     else:
         bot.send_message(message.chat.id, MESSAGES['UNKNOWN_ERROR'],
@@ -665,6 +665,9 @@ def next_step_agent_send_name(message: Message):
         bot.register_next_step_handler(message, next_step_agent_send_name)
         return
     USERS_DB.edit_user(telegram_id=message.chat.id, name= name)
+    bot.send_message(message.chat.id, MESSAGES['WAIT_FOR_ADMIN_AGENT_REGISTRATION_CONFIRMATION'],
+                    reply_markup=next_step_agent_send_name())
+    
 
 # *********************************** Callback Query Area ***********************************
 @bot.callback_query_handler(func=lambda call: True)
