@@ -39,6 +39,7 @@ class UserDBManager:
                         "telegram_id INTEGER NOT NULL UNIQUE,"
                         "full_name TEXT NULL,"
                         "username TEXT NULL,"
+                        "name TEXT DEFAULT 'name',"
                         "uuid TEXT DEFAULT 'uuid',"
                         "approved BOOLEAN NOT NULL DEFAULT 0,"
                         "ending_massage_volume TEXT DEFAULT 'message',"
