@@ -2658,7 +2658,9 @@ def callback_query(call: CallbackQuery):
 
     elif key == "confirm_registration_by_admin":
         pass
-            
+    elif key == "cancel_registration_by_adminس":
+        pass
+         
     # Back to User Panel Callback
     elif key == "back_to_user_panel":
         usr = utils.user_info(URL, value)
