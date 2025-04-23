@@ -2671,14 +2671,6 @@ def callback_query(call: CallbackQuery):
             bot.send_message(call.message.chat.id,
                              f"{MESSAGES['ERROR_USEER_ALREADY_CONFIRMED']}\n{MESSAGES['telegram_id']} {telegram_id}")
             return
-        
-        wallet = USERS_DB.find_wallet(telegram_id=payment_info['telegram_id'])
-        if not wallet:
-            create_wallet_status = USERS_DB.add_wallet(payment_info['telegram_id'])
-            if not create_wallet_status: 
-                bot.send_message(call.message.chat.id, MESSAGES['ERROR_UNKNOWN'])
-                return
-            wallet = USERS_DB.find_wallet(telegram_id=payment_info['telegram_id'])
 
         confirmation_status = USERS_DB.edit_user(telegram_id, approved=True)
         if confirmation_status:
