@@ -248,7 +248,7 @@ class UserDBManager:
                 logging.info(f"agent {telegram_id} not found!")
                 return None
             rows = [dict(zip([key[0] for key in cur.description], row)) for row in rows]
-            print(rows)
+            logging.info(f"--- rows = {rows} ---")
             return rows
         except Error as e:
             logging.error(f"Error while finding agent {telegram_id} \n Error:{e}")
