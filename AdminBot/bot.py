@@ -2664,12 +2664,12 @@ def callback_query(call: CallbackQuery):
         user_info = USERS_DB.find_user(telegram_id=telegram_id)
         if not user_info:
             bot.send_message(call.message.chat.id,
-                             f"{MESSAGES['ERROR_USER_NOT_FOUND']}\n{MESSAGES['telegram_id']} {telegram_id}")
+                             f"{MESSAGES['ERROR_USER_NOT_FOUND']}\n{MESSAGES['INFO_USER_NUM_ID']} {telegram_id}")
             return
         user_info = user_info[0]
         if user_info['approved'] == 1:
             bot.send_message(call.message.chat.id,
-                             f"{MESSAGES['ERROR_USEER_ALREADY_CONFIRMED']}\n{MESSAGES['telegram_id']} {telegram_id}")
+                             f"{MESSAGES['ERROR_USEER_ALREADY_CONFIRMED']}\n{MESSAGES['INFO_USER_NUM_ID']} {telegram_id}")
             return
 
         confirmation_status = USERS_DB.edit_user(telegram_id, approved=True)
@@ -2678,7 +2678,7 @@ def callback_query(call: CallbackQuery):
             user_bot.send_message(int(user_info['telegram_id']),
                                   f"{MESSAGES['AGENT_REGISTRATION_CONFIRMED']}")
             bot.send_message(call.message.chat.id,
-                             f"{MESSAGES['AGENT_REGISTRATION_CONFIRMED_ADMIN']}\n{MESSAGES['telegram_id']} {telegram_id}")
+                             f"{MESSAGES['AGENT_REGISTRATION_CONFIRMED_ADMIN']}\n{MESSAGES['INFO_USER_NUM_ID']} {telegram_id}")
     
     elif key == "cancel_registration_by_admin":
         pass
