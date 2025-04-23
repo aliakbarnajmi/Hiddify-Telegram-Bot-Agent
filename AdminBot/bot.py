@@ -2656,6 +2656,8 @@ def callback_query(call: CallbackQuery):
                          reply_markup=markups.while_edit_user_markup())
         bot.register_next_step_handler(call.message, users_bot_send_message_to_user, value)
 
+    elif key == "confirm_registration_by_admin":
+        pass
             
     # Back to User Panel Callback
     elif key == "back_to_user_panel":

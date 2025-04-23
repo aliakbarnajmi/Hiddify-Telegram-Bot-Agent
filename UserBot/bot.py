@@ -674,8 +674,9 @@ def next_step_agent_send_name(message: Message):
         return
     user_data = user_data[0]
     for ADMIN in ADMINS_ID:
-        admin_bot.send_message(ADMIN, agnet_confirmation_template(name, user_data))
-    # آخر تابع بالا باید یه مارکاپ برگردونه فکر کنم، مثال تراکنشش رو نگاه کن
+        admin_bot.send_message(ADMIN, agnet_confirmation_template(name, user_data),
+                               reply_markup=confirm_agent_registration_by_admin(message.chat.id))
+    # آخر تابع بالا باید یه مارکاپ برگردونه فکر کنم، مثال تراکنشش رو نگاه کنس
     
 
 # *********************************** Callback Query Area ***********************************
