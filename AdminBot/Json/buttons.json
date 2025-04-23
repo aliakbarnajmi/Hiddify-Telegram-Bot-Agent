@@ -112,6 +112,7 @@
     "SERVER_EDIT_URL": "Edit URL",
     "CHANGE_STATUS_PAYMENT": "Change Payment Status",
     "CONFIRM_PAYMENT": "✅Confirm Payment",
+    "CONFIRM_REGISTRATION": "✅Confirm Registraion",
     "NO": "❌No",
     "YES": "✅Yes",
     "ANSWER": "Answer",
@@ -234,6 +235,7 @@
     "SERVER_EDIT_URL": "ویرایش لینک",
     "CHANGE_STATUS_PAYMENT": "تغییر وضعیت تراکنش",
     "CONFIRM_PAYMENT": "✅تایید تراکنش",
+    "CONFIRM_REGISTRATION": "✅تایید عضویت",
     "NO": "❌خیر",
     "YES": "✅بله",
     "ANSWER": "📤پاسخ",

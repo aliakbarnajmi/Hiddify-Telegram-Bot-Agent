@@ -167,6 +167,14 @@ def confirm_payment_by_admin(order_id):
     markup.add(InlineKeyboardButton(KEY_MARKUP['SEND_MESSAGE'], callback_data=f"send_message_by_admin:{order_id}"))
     return markup
 
+def confirm_agent_registration_by_admin(telegram_id):
+    markup = InlineKeyboardMarkup()
+    markup.row_width = 1
+    markup.add(
+        InlineKeyboardButton(KEY_MARKUP['CONFIRM_REGISTRATION'], callback_data=f"confirm_registration_by_admin:{telegram_id}"))
+    markup.add(InlineKeyboardButton(KEY_MARKUP['NO'], callback_data=f"cancel_registration_by_admin:{telegram_id}"))
+    markup.add(InlineKeyboardButton(KEY_MARKUP['SEND_MESSAGE'], callback_data=f"send_message_by_admin:{telegram_id}"))
+
 def notify_to_admin_markup(user):
     name = user['full_name'] if user['full_name'] else user['telegram_id']
     markup = InlineKeyboardMarkup()

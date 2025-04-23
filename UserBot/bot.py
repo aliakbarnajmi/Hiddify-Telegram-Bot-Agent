@@ -666,7 +666,7 @@ def next_step_agent_send_name(message: Message):
         return
     USERS_DB.edit_user(telegram_id=message.chat.id, name= name)
     bot.send_message(message.chat.id, MESSAGES['WAIT_FOR_ADMIN_AGENT_REGISTRATION_CONFIRMATION'],
-                    reply_markup=user_request_for_representation())
+                    reply_markup=user_request_for_representation()  )
     user_data = USERS_DB.find_user(telegram_id=message.chat.id)
     if not user_data:
         bot.send_message(message.chat.id, MESSAGES['UNKNOWN_ERROR'],
@@ -675,6 +675,7 @@ def next_step_agent_send_name(message: Message):
     user_data = user_data[0]
     for ADMIN in ADMINS_ID:
         admin_bot.send_message(ADMIN, agnet_confirmation_template(name, user_data))
+    # آخر تابع بالا باید یه مارکاپ برگردونه فکر کنم، مثال تراکنشش رو نگاه کن
     
 
 # *********************************** Callback Query Area ***********************************
