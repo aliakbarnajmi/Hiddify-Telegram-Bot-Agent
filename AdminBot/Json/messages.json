@@ -3,6 +3,7 @@
     "WELCOME": "Welcome to Hiddify Management Bot",
     "ERROR_INVALID_NUMBER": "❌Only numbers are allowed!",
     "ERROR_USER_NOT_FOUND": "❌User not found",
+    "ERROR_USEER_ALREADY_CONFIRMED": "User already confirmed",
     "ERROR_INVALID_COMMAND": "❌Invalid command",
     "ERROR_UNKNOWN": "❌Unknown error",
     "ERROR_CONFIG_NOT_FOUND": "❌Config not found",
@@ -212,12 +213,14 @@
     "WALLET_BALANCE_CHANGED_BY_ADMIN_P1": "💰Wallet balance changed to",
     "WALLET_BALANCE_CHANGED_BY_ADMIN_P2": "by admin",
     "SUCCESS_BAN_USER": "✅User banned",
-    "SUCCESS_UNBAN_USER": "✅User unbanned"
+    "SUCCESS_UNBAN_USER": "✅User unbanned",
+    "AGENT_REGISTRATION_CONFIRMED":"Congrats, you are accepted by admin, now you can use bot completely"
   },
   "FA": {
     "WELCOME": "به ربات مدیریت VPN 27 خوش آمدید.",
     "ERROR_INVALID_NUMBER": "❌تنها اعداد مجاز هستند!",
     "ERROR_USER_NOT_FOUND": "❌کاربر یافت نشد",
+    "ERROR_USEER_ALREADY_CONFIRMED": "❌ کاربر قبلا تایید شده است",
     "ERROR_INVALID_COMMAND": "❌فرمان نامعتبر",
     "ERROR_UNKNOWN": "❌خطای ناشناخته",
     "ERROR_CONFIG_NOT_FOUND": "❌کانفیگ یافت نشد",
@@ -427,6 +430,8 @@
     "WALLET_BALANCE_CHANGED_BY_ADMIN_P1": "💰موجودی کیف پول شما توسط مدیر به",
     "WALLET_BALANCE_CHANGED_BY_ADMIN_P2": "تومان تغییر یافت",
     "SUCCESS_BAN_USER": "✅کاربر مسدود شد",
-    "SUCCESS_UNBAN_USER": "✅کاربر مسدود شده، آزاد شد"
+    "SUCCESS_UNBAN_USER": "✅کاربر مسدود شده، آزاد شد",
+    "AGENT_REGISTRATION_CONFIRMED":"تبریک شما توسط ادمین تایید شدید\nمیتوانید از تمامی امکانات بات استفاده کنید",
+    "AGENT_REGISTRATION_CONFIRMED_ADMIN": "ایجنت تایید شد"
   }
 }

@@ -2657,8 +2657,38 @@ def callback_query(call: CallbackQuery):
         bot.register_next_step_handler(call.message, users_bot_send_message_to_user, value)
 
     elif key == "confirm_registration_by_admin":
-        pass
-    elif key == "cancel_registration_by_adminس":
+        if not CLIENT_TOKEN:
+            bot.send_message(call.message.chat.id, MESSAGES['ERROR_CLIENT_TOKEN'])
+            return
+        telegram_id = value
+        user_info = USERS_DB.find_user(telegram_id=telegram_id)
+        if not user_info:
+            bot.send_message(call.message.chat.id,
+                             f"{MESSAGES['ERROR_USER_NOT_FOUND']}\n{MESSAGES['telegram_id']} {telegram_id}")
+            return
+        user_info = user_info[0]
+        if user_info['approved'] == 1:
+            bot.send_message(call.message.chat.id,
+                             f"{MESSAGES['ERROR_USEER_ALREADY_CONFIRMED']}\n{MESSAGES['telegram_id']} {telegram_id}")
+            return
+        
+        wallet = USERS_DB.find_wallet(telegram_id=payment_info['telegram_id'])
+        if not wallet:
+            create_wallet_status = USERS_DB.add_wallet(payment_info['telegram_id'])
+            if not create_wallet_status: 
+                bot.send_message(call.message.chat.id, MESSAGES['ERROR_UNKNOWN'])
+                return
+            wallet = USERS_DB.find_wallet(telegram_id=payment_info['telegram_id'])
+
+        confirmation_status = USERS_DB.edit_user(telegram_id, approved=True)
+        if confirmation_status:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            user_bot.send_message(int(payment_info['telegram_id']),
+                                  f"{MESSAGES['AGENT_REGISTRATION_CONFIRMED']}")
+            bot.send_message(call.message.chat.id,
+                             f"{MESSAGES['AGENT_REGISTRATION_CONFIRMED_ADMIN']}\n{MESSAGES['telegram_id']} {telegram_id}")
+    
+    elif key == "cancel_registration_by_admin":
         pass
          
     # Back to User Panel Callback
@@ -2670,9 +2700,11 @@ def callback_query(call: CallbackQuery):
         msg = templates.user_info_template(usr, selected_server)
         bot.edit_message_text(msg, call.message.chat.id, call.message.message_id,
                               reply_markup=markups.user_info_markup(usr['uuid']))
+    
     elif key == "back_to_sub_url_user_list":
         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id,
                                       reply_markup=markups.sub_url_user_list_markup(value))
+    
     elif key == "back_to_server_management":
         servers = USERS_DB.select_servers()
         bot.edit_message_text(KEY_MARKUP['SERVERS_MANAGEMENT'], call.message.chat.id, call.message.message_id,
@@ -2718,6 +2750,7 @@ def callback_query(call: CallbackQuery):
     elif key == "back_to_users_bot_users_management":
         bot.edit_message_text(KEY_MARKUP['BOT_USERS_MANAGEMENT'], call.message.chat.id, call.message.message_id,
                               reply_markup=markups.users_bot_users_management_markup())
+    
     elif key == "back_to_bot_users_or_reffral_management":
         if list_mode == "Bot_Users_Search_Name" or "Bot_User":
             bot.edit_message_text(KEY_MARKUP['BOT_USERS_MANAGEMENT'], call.message.chat.id, call.message.message_id,
