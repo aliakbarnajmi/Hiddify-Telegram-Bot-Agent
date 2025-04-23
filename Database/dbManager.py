@@ -246,13 +246,16 @@ class UserDBManager:
             rows = cur.fetchall()
             if len(rows) == 0:
                 logging.info(f"agent {telegram_id} not found!")
-                return None
+                return False
             rows = [dict(zip([key[0] for key in cur.description], row)) for row in rows]
-            logging.info(f"--- rows = {rows} ---")
-            return rows
+            if not rows:
+                return False
+            if len(rows) != 1:
+                return False
+            return True if rows[0]["approved"] == 1 else False
         except Error as e:
             logging.error(f"Error while finding agent {telegram_id} \n Error:{e}")
-            return None
+            return False
 
 # ---------------- PLAN --------------
     def add_plan(self, plan_id, size_gb, days, price, server_id, description=None, status=True):
