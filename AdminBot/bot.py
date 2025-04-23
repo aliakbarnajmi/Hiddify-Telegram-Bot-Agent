@@ -2675,7 +2675,7 @@ def callback_query(call: CallbackQuery):
         confirmation_status = USERS_DB.edit_user(telegram_id, approved=True)
         if confirmation_status:
             bot.delete_message(call.message.chat.id, call.message.message_id)
-            user_bot.send_message(int(payment_info['telegram_id']),
+            user_bot.send_message(int(user_info['telegram_id']),
                                   f"{MESSAGES['AGENT_REGISTRATION_CONFIRMED']}")
             bot.send_message(call.message.chat.id,
                              f"{MESSAGES['AGENT_REGISTRATION_CONFIRMED_ADMIN']}\n{MESSAGES['telegram_id']} {telegram_id}")
